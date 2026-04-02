@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProAssainissement — Haute Technologie du Traitement & de la Salubrité</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+
+        :root {
+            --dark-bg: #030712; /* Noir de jais profond */
+            --card-bg: #0F172A; /* Bleu nuit très sombre */
+            --cyan: #22D3EE;    /* Cyan électrique (couleur technique/sécurité) */
+            --cyan-dim: rgba(34, 211, 238, 0.1);
+            --white: #F9FAFB;
+            --muted: #94A3B8;
+            --border: rgba(255, 255, 255, 0.06);
+            --gold-acc: #D4A843; /* Accents dorés discrets pour le premium */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: var(--dark-bg); 
+            color: var(--white); 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+	/* 1. Force le style du menu select */
+select {
+    width: 100%;
+    padding: 16px;
+    background-color: #0F172A !important; /* Bleu nuit forcé */
+    border: 1px solid rgba(34, 211, 238, 0.3) !important;
+    border-radius: 12px;
+    color: #FFFFFF !important; /* Texte BLANC forcé */
+    font-size: 1rem;
+    appearance: none !important; /* Supprime le design Windows/Mac */
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2322D3EE'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3Cpath%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 15px center !important;
+    background-size: 18px !important;
+}
+
+/* 2. Force le style des OPTIONS (le menu qui descend) */
+select option {
+    background-color: #030712 !important; /* Fond NOIR profond */
+    color: #FFFFFF !important;           /* Texte BLANC */
+    padding: 15px !important;
+}
+
+/* 3. Correction spécifique pour iPhone/Safari */
+select:focus {
+    background-color: #0F172A !important;
+    outline: none;
+    border-color: #22D3EE !important;
+}
+
+/* Style de la première option (le placeholder) */
+select option:disabled {
+    color: #64748B !important;
+}
+
+        /* --- EFFETS DE FOND --- */
+        .bg-overlay {
+            position: fixed; inset: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(34, 211, 238, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(34, 211, 238, 0.02) 0%, transparent 40%);
+            z-index: -1;
+        }
+        /* Effet de grain de fond pour la texture */
+        body::after {
+            content: ""; position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.015; pointer-events: none; z-index: -1;
+        }
+
+        /* --- NAVIGATION PREMIMUM --- */
+        nav {
+            height: 80px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 6%; border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000;
+            background: rgba(3, 7, 18, 0.8);
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--cyan); font-weight: 700; letter-spacing: 1px; }
+        .logo span { color: var(--white); font-weight: 300; }
+        .nav-phone { font-weight: 700; color: var(--cyan); font-size: 1rem; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-phone::before { content: "●"; color: #22C55E; animation: pulse 2s infinite; }
+
+        /* --- HERO SECTION (PLEINE PAGE) --- */
+        .hero {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+            padding: 120px 6% 100px; min-height: 95vh; align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Outfit', sans-serif; font-size: clamp(2.8rem, 6vw, 5rem);
+            line-height: 1.05; margin-bottom: 35px; font-weight: 800;
+        }
+        .hero-text h1 span { 
+            background: linear-gradient(135deg, var(--white), var(--cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: block; font-style: normal;
+        }
+        .hero-text p { font-size: 1.2rem; color: var(--muted); max-width: 600px; margin-bottom: 50px; font-weight: 300; }
+
+        .hero-badges { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 40px;}
+        .badge { 
+            background: var(--cyan-dim); border: 1px solid rgba(34, 211, 238, 0.2);
+            padding: 10px 20px; border-radius: 100px; font-size: 0.8rem; color: var(--cyan);
+            text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
+        }
+
+        /* --- FORMULAIRE URGENT (LEAD GEN) --- */
+        .form-card {
+            background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 28px; padding: 50px;
+            box-shadow: 0 50px 120px rgba(0,0,0,0.7), inset 0 1px 1px rgba(34,211,238,0.1);
+            animation: fadeIn 1s ease-out; position: relative;
+        }
+        /* Ligne de lumière sur le dessus */
+        .form-card::before {
+            content: ""; position: absolute; top: 0; left: 10%; width: 80%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+        }
+
+        .form-card h2 { font-size: 1.8rem; margin-bottom: 10px; font-weight: 700; text-align: center;}
+        .form-card p { color: var(--muted); font-size: 0.9rem; text-align: center; margin-bottom: 35px; font-weight: 300;}
+
+        .field { margin-bottom: 20px; }
+        label { display: block; font-size: 0.75rem; color: var(--cyan); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1.5px; font-weight: 600; }
+        input, select, textarea {
+            width: 100%; padding: 16px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none;
+            transition: 0.3s; font-family: 'Outfit', sans-serif; font-size: 1rem;
+        }
+        textarea { resize: none; height: 100px; }
+        input:focus, select:focus, textarea:focus { border-color: var(--cyan); background: rgba(34,211,238,0.03); box-shadow: 0 0 20px rgba(34,211,238,0.1); }
+
+        .btn-urgent {
+            width: 100%; padding: 22px; background: linear-gradient(135deg, #0891B2, var(--cyan));
+            border: none; border-radius: 14px; color: var(--dark-bg); font-weight: 800;
+            text-transform: uppercase; cursor: pointer; transition: 0.4s; margin-top: 15px;
+            letter-spacing: 2px; position: relative; overflow: hidden; font-size: 1rem;
+        }
+        .btn-urgent:hover { transform: translateY(-3px); box-shadow: 0 25px 50px rgba(34, 211, 238, 0.3); }
+        
+        /* Animation de brillance intermittente */
+        .btn-urgent::after {
+            content: ''; position: absolute; top: -50%; left: -60%; width: 20%; height: 200%;
+            background: rgba(255,255,255,0.4); transform: rotate(30deg); transition: 0.7s;
+        }
+        .btn-urgent:hover::after { left: 130%; }
+
+        /* --- SECTION PRESTATIONS SPÉCIALISÉES (GRID) --- */
+        .services { padding: 120px 6%; background: rgba(15, 23, 42, 0.4); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .section-title { text-align: center; margin-bottom: 80px; max-width: 700px; margin-left: auto; margin-right: auto;}
+        .section-title h2 { font-family: 'Outfit', sans-serif; font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
+        .section-title h2 span { color: var(--cyan); font-style: normal; }
+        .section-title p { color: var(--muted); font-size: 1.1rem; font-weight: 300;}
+
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .service-card { 
+            padding: 40px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+            transition: 0.4s; position: relative; overflow: hidden;
+        }
+        .service-card:hover { border-color: var(--cyan); transform: translateY(-10px); background: rgba(34,211,238,0.02); }
+        .service-card::before {
+            content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+            background: var(--cyan); transform: scaleX(0); transition: 0.4s; transform-origin: left;
+        }
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .icon { font-size: 2.5rem; margin-bottom: 25px; color: var(--cyan); display: block; }
+        .service-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 15px; color: var(--white); }
+        .service-card p { font-size: 0.95rem; color: var(--muted); font-weight: 300; margin-bottom: 20px;}
+        .service-card ul { list-style: none; font-size: 0.85rem; color: var(--white); font-weight: 400; }
+        .service-card ul li { margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
+        .service-card ul li::before { content: "✓"; color: var(--cyan); font-weight: 900;}
+
+        /* --- SECTION ENGAGEMENT PREMIUM --- */
+        .commitment { padding: 120px 6%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .commitment-text h2 { font-size: 3rem; font-weight: 800; margin-bottom: 25px; line-height: 1.1; }
+        .commitment-text p { color: var(--muted); font-size: 1.1rem; margin-bottom: 40px; font-weight: 300; }
+        
+        .guarantees { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .g-item { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 18px; }
+        .g-item strong { color: var(--white); font-size: 1rem; display: block; margin-bottom: 10px; font-weight: 600; }
+        .g-item span { color: var(--muted); font-size: 0.85rem; font-weight: 300; }
+
+        /* --- FOOTER DISCRET --- */
+        footer { padding: 50px 6%; text-align: center; border-top: 1px solid var(--border); color: #475569; font-size: 0.8rem; font-weight: 300; }
+
+        /* --- ANIMATIONS & RESPONSIVE --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(34, 211, 238, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); } }
+
+        @media (max-width: 1200px) {
+            .hero { grid-template-columns: 1fr; text-align: center; padding-top: 80px; }
+            .hero-text p { margin: 0 auto 50px; }
+            .hero-badges { justify-content: center; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .commitment { grid-template-columns: 1fr; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            .form-card { padding: 40px 25px; }
+            .hero-text h1 { font-size: 2.5rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .section-title h2 { font-size: 2.2rem; }
+            .guarantees { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-overlay"></div>
+
+<nav>
+    <div class="logo">PRO<span>ASSAINISSEMENT</span></div>
+    <a href="tel:0100000000" class="nav-phone">URGENCE H24 : 01 XX XX XX XX</a>
+</nav>
+
+<section class="hero">
+    <div class="hero-text">
+        <div class="badge" style="margin-bottom: 25px;">Intervention Critique & Haute Salubrité</div>
+        <h1>Insalubrité ou Nuisibles : <span>Restauration Radicale de Salubrité.</span></h1>
+        <p>Protocole technique de décontamination d'urgence pour professionnels et syndics. Discrétion absolue, réactivité immédiate H24, garantie de résultat certifiée.</p>
+        
+        <div class="hero-badges">
+            <div class="badge">✓ Agrément Ministériel</div>
+            <div class="badge">✓ Certification Biocide 2026</div>
+            <div class="badge">✓ Intervention Discrète</div>
+        </div>
+    </div>
+
+    <div class="form-card" id="leadForm">
+        <h2>Demande d'Intervention</h2>
+        <p>Réponse technique et devis sous 2 heures pour toute urgence.</p>
+        
+        <form action="#" method="POST">
+            <div class="field">
+                <label>Nom de l'Entreprise / Syndic</label>
+                <input type="text" name ="nom-entreprise" placeholder="Ex: Cabinet Dupont Immobilier" required>
+            </div>
+            <div class="field">
+                <label>Contact Référent & Téléphone</label>
+                <input type="text" name="contact-telephone" placeholder="Ex: Marc Lavoine - 06 XX XX XX XX" required>
+            </div>
+            <div class="field">
+                <label>Type de Prestation Critique</label>
+                <select name="type-prestation">
+                    <option value="" disabled selected>Sélectionnez le protocole...</option>
+                    <option value="nuisibles">Éradication Nuisibles (Dératisation/Désinsectisation)</option>
+                    <option value="insalubre">Remise en état Logement Insalubre / Diogène</option>
+                    <option value="sinistre">Décontamination Après Sinistre (Incendie/Dégât des eaux)</option>
+                    <option value="nettoyage">Désinfection Complète & Nettoyage Extrême</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Code Postal du Site</label>
+                <input type="text" name="code-postal" placeholder="Ex: 75008" required>
+            </div>
+            <button type="submit" class="btn-urgent">Déclencher le Protocole d'Urgence →</button>
+        </form>
+        <p style="font-size: 0.6rem; color: #475569; text-align: center; margin-top: 25px;">Données cryptées SSL. Conformité RGPD stricte.</p>
+    </div>
+</section>
+
+<section class="services" id="prestations">
+    <div class="section-title">
+        <div class="badge" style="margin-bottom: 15px;">Nos Unités Techniques</div>
+        <h2>Éradication & Assainissement <span>de Haute Précision.</span></h2>
+        <p>Chaque intervention suit un protocole de décontamination spécifique, utilisant des technologies virucides et insecticides de grade industriel.</p>
+    </div>
+
+    <div class="services-grid">
+        <div class="service-card">
+            <span class="icon">🕷️</span>
+            <h3>Éradication Nuisibles</h3>
+            <p>Dératisation technique et désinsectisation par flux pour une élimination systémique des colonies.</p>
+            <ul>
+                <li>Identification de la source</li>
+                <li>Traitement par nébulisation</li>
+                <li>Barriérage chimique durable</li>
+            </ul>
+        </div>
+
+        <div class="service-card">
+            <span class="icon">🦠</span>
+            <h3>Désinfection Virucide</h3>
+            <p>Désinfection de choc virucide, bactéricide et fongicide certifiée pour locaux contaminés.</p>
+            <ul>
+                <li>Protocole anti-virulor</li>
+                <li>Nébulisation 3D</li>
+                <li>Traitement de l'air</li>
+            </ul>
+        </div>
+
+        <div class="service-card">
+            <span class="icon">🧴</span>
+            <h3>Remise en État Extrême</h3>
+            <p>Intervention radicale post-Diogène, incurie ou logement insalubre pour restauration locative.</p>
+            <ul>
+                <li>Désinfection des surfaces</li>
+                <li>Neutralisation odeurs</li>
+                <li>Remise en état locative</li>
+            </ul>
+        </div>
+
+        <div class="service-card">
+            <span class="icon">🚛</span>
+            <h3>Débarras Intégral</h3>
+            <p>Débarras complet avec tri technique et désinfection simultanée des volumes intérieurs.</p>
+            <ul>
+                <li>Tri technique & Traçabilité</li>
+                <li>Enlèvement mobilier</li>
+                <li>Désinfection des volumes</li>
+            </ul>
+        </div>
+
+        <div class="service-card">
+            <span class="icon">🔥</span>
+            <h3>Restauration Sinistre</h3>
+            <p>Décontamination après incendie (suies, toxines) ou dégât des eaux (moisissures).</p>
+            <ul>
+                <li>Nettoyage post-incendie</li>
+                <li>Assèchement technique</li>
+                <li>Traitement odeurs</li>
+            </ul>
+        </div>
+
+        <div class="service-card">
+            <span class="icon">🛠️</span>
+            <h3>Réhabilitation Finale</h3>
+            <p>Finalisation de la remise en état pour une restitution de salubrité immédiate du site.</p>
+            <ul>
+                <li>Finitions de propreté</li>
+                <li>Contrôle de salubrité</li>
+                <li>Garantie de résultat</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="commitment">
+    <div class="commitment-text">
+        <div class="badge" style="margin-bottom: 20px;">L'Excellence Technique</div>
+        <h2>La Haute Couture de l'Assainissement.</h2>
+        <p>Nous ne pratiquons pas de nettoyage de surface. Nos unités interviennent pour restaurer la salubrité technique de sites critiques, garantissant un environnement stérile et sécurisé sous contrôle biocide.</p>
+        <a href="#leadForm" class="btn-urgent" style="display: inline-block; width: auto; text-decoration: none; padding: 18px 30px;">Demander un Audit Technique</a>
+    </div>
+
+    <div class="guarantees">
+        <div class="g-item">
+            <strong>Discrétion Véhiculaire</strong>
+            <span>Véhicules banalisés pour une intervention en toute confidentialité pour votre image.</span>
+        </div>
+        <div class="g-item">
+            <strong>Traçabilité Totale (RGPD)</strong>
+            <span>Contrôle de salubrité et rapport biocide détaillé après chaque intervention critique.</span>
+        </div>
+        <div class="g-item">
+            <strong>Grade Industriel A+</strong>
+            <span>Matériel de nébulisation 3D et produits virucides classe A+++ exclusivement.</span>
+        </div>
+        <div class="g-item">
+            <strong>Garantie de Résultat</strong>
+            <span>Protocole de décontamination stérile avec engagement écrit de résultat total.</span>
+        </div>
+    </div>
+</section>
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxePpd-hzp8QvxRgw3ALsI_mABcr_wy7nTM0imIWAOWRarIdjNjfg2aTRNvQPykp09e/exec';
+  const form = document.getElementById('pro-form');
+  const btn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    // Effet visuel sur le bouton pendant l'envoi
+    btn.disabled = true;
+    btn.innerHTML = "Envoi en cours...";
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+          btn.innerHTML = "✓ Demande Envoyée";
+          btn.style.background = "#22C55E"; // Vert succès
+          form.reset();
+          alert("Votre demande d'intervention a été enregistrée. Un expert vous rappellera sous 2h.");
+      })
+      .catch(error => {
+          btn.disabled = false;
+          btn.innerHTML = "Erreur - Réessayer";
+          console.error('Error!', error.message);
+      });
+  });
+</script>
+<footer>
+    <p>&copy; 2026 ProAssainissement Technique. Tous droits réservés.</p>
+    <p style="font-size: 0.7rem; margin-top: 10px;">Agréments Ministériels N°AP-1422 // Certification Biocide Technique A+</p>
+</footer>
+
+</body>
+</html>
